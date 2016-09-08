@@ -210,14 +210,33 @@ abline(h = mean_cap_gain)
 
 #============BoxPlot==================
 
-set <- subset(dados, Capital.Gain <= 200000)[,c("Age", "Sex", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
+female <- subset(dados, Sex == "Female")[,c("Age", "Race", "Sex", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
+male <- subset(dados, Sex == "Male")[,c("Age", "Race", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
 
 #BoxPlot
-boxplot(set$Capital.Gain ~ set$Sex, col = "blue",
-        boxwex = 0.25,
-        main = "Capital Gain by Sex",       
+boxplot(dados$Education.Num ~ dados$Sex, col = "blue",
+        main = "Num Years Education by Sex",       
         xlab = "Sex",
-        ylab = "Capital gain")
+        ylab = "Num Years Education")
+
+
+#BoxPlot
+boxplot(dados$Education.Num ~ dados$Race, col = "yellow",
+        main = "Num Years Education by Race",       
+        xlab = "Sex",
+        ylab = "Num Years Education")
+
+#BoxPlot
+boxplot(male$Education.Num ~ male$Race, col = "green",
+        main = "Num Years Education by Race and Sex = Male",       
+        xlab = "Race",
+        ylab = "Num Years Education")
+
+#BoxPlot
+boxplot(female$Education.Num ~ female$Race, col = "purple",
+        main = "Num Years Education by Race and Sex = Female",       
+        xlab = "Race",
+        ylab = "Num Years Education")
 
 
 #============Histograma=================
