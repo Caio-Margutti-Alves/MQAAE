@@ -152,8 +152,18 @@ cor(subset(dados, Marital.Status == " Married-spouse-absent")[,c("Age", "Educati
 cor(subset(dados, Marital.Status == " Never-married")[,c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")])
 
 #============================== ch:1: distances for the data in Table 1.2
-tmp <- dist(scale(dados[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")],center = FALSE))
-tmp
+
+# Divide base de dados em 10 e aplica o método dist
+for (i in 0:9) {
+  x <- dados[floor(((nrow(dados)/10)*i)+1):floor((nrow(dados)/10)*(i+1)), 1:ncol(dados)]
+  #print(x)
+  tmp <- dist(scale(x[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")],center = FALSE))
+  print(tmp)
+}
+
+# Metodo dist aplicado a toda base de dados (precisa alocar muita memoria)
+# tmp <- dist(scale(dados[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")],center = FALSE))
+# tmp
 
 class(tmp)
 attributes(tmp)
@@ -223,7 +233,7 @@ boxplot(dados$Education.Num ~ dados$Sex, col = "blue",
 #BoxPlot
 boxplot(dados$Education.Num ~ dados$Race, col = "yellow",
         main = "Num Years Education by Race",       
-        xlab = "Sex",
+        xlab = "Race",
         ylab = "Num Years Education")
 
 #BoxPlot
@@ -253,3 +263,4 @@ h <- hist(x,
 
 #Desity dist. of WOrking Hours
 curve(dnorm(x, mean=mean(x), sd=sd(x)), add=TRUE)
+
