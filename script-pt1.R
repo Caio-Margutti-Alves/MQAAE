@@ -310,15 +310,29 @@ legend("topright", c("<=50K", ">50k"), cex = 0.8, fill = rainbow(length(lbls)))
 
 #============Histograma=================
 
-x <- dados$Hours.per.Week
+x <- male$Hours.per.Week
 
 #Histograma
 h <- hist(x, 
      col = "blue",
-     main="Histograma de Horas Trab. Semanal",
+     main="Horas trabalhadas semanais de homens",
      xlab = "Horas de Trabalho",
      ylab = "Frequencia",
      freq=F)
+
+#Desity dist. of WOrking Hours
+curve(dnorm(x, mean=mean(x), sd=sd(x)), add=TRUE)
+
+x <- female$Hours.per.Week
+
+#Histograma
+h <- hist(x, 
+     col = "blue",
+     main="Horas trabalhadas semanais de mulheres",
+     xlab = "Horas de Trabalho",
+     ylab = "Frequencia",
+     freq=F)
+
 
 #Desity dist. of WOrking Hours
 curve(dnorm(x, mean=mean(x), sd=sd(x)), add=TRUE)
