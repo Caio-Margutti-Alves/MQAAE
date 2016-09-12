@@ -220,8 +220,8 @@ abline(h = mean_cap_gain)
 
 #============BoxPlot==================
 
-female <- subset(dados, Sex == "Female")[,c("Age", "Race", "Sex", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
-male <- subset(dados, Sex == "Male")[,c("Age", "Race", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
+female <- subset(dados, Sex == "Female")[,c("Age", "Race", "Sex", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week", "Annual.Salary")]
+male <- subset(dados, Sex == "Male")[,c("Age", "Race", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week", "Annual.Salary")]
 
 #BoxPlot
 boxplot(dados$Education.Num ~ dados$Sex, col = "blue",
@@ -247,6 +247,65 @@ boxplot(female$Education.Num ~ female$Race, col = "purple",
         main = "Num Years Education by Race and Sex = Female",       
         xlab = "Race",
         ylab = "Num Years Education")
+
+#============Barplot==================
+
+grt_50 <- subset(dados, Annual.Salary == ">50K" & Native.Country != "United-States")[,c("Native.Country")]
+lss_50 <- subset(dados, Annual.Salary == "<=50K" & Native.Country != "United-States")[,c("Native.Country")]
+
+#Histograma
+h <- barplot(prop.table(table(grt_50)), las=2, main = "% Countries with >50K people Earning")
+
+#Histograma
+h <- barplot(prop.table(table(lss_50)), las=2, main = "% Countries with <=50K people Earning")
+
+#==============Pie Charts============
+
+cont <- nrow(female)
+cont
+x <- female$Annual.Salary
+female_minus <- sum(x == "<=50K")
+female_minus/cont
+
+y <- female$Annual.Salary
+female_plus <- sum(y != "<=50K")
+female_plus/cont
+
+slices<- c(female_minus, female_plus)
+
+lbls <- c("<=50K", ">50k")
+
+piepercent<- round(100*slices/sum(slices), 1)
+piepercent
+
+lbls <- c("<=50K", ">50k")
+
+pie(slices, labels = piepercent, main="Female Yearly Earnings", col=rainbow(length(lbls)))
+
+legend("topright", c("<=50K", ">50k"), cex = 0.8, fill = rainbow(length(lbls)))
+
+#=================================
+
+cont <- nrow(male)
+cont
+x <- male$Annual.Salary
+male_minus <- sum(x == "<=50K")
+male_minus/cont
+
+y <- male$Annual.Salary
+male_plus <- sum(y != "<=50K")
+male_plus/cont
+
+slices<- c(male_minus, male_plus)
+
+piepercent<- round(100*slices/sum(slices), 1)
+piepercent
+
+lbls <- c("<=50K", ">50k")
+
+pie(slices, labels = piepercent, main="Male Yearly Earnings", col=rainbow(length(lbls)))
+
+legend("topright", c("<=50K", ">50k"), cex = 0.8, fill = rainbow(length(lbls)))
 
 
 #============Histograma=================
