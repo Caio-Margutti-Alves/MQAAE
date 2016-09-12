@@ -213,7 +213,7 @@ set$Colour[set$Age>=81]="purple"
 plot(set$Age, set$Capital.Gain, main="Age per Capital Gain", col=set$Colour, xlab = mlab, ylab = plab)
 
 legend("topright", xpd = TRUE,col = c("green", "blue", "yellow", "red", "purple"), 
-       legend =c("<=20", "21-40", "41-60", "61-80", ">80"), pch = c(4, 2, 15, 19))
+       legend =c("<=20", "21-40", "41-60", "61-80", ">80"), pch = c(1))
 
 #Ab Line
 abline(h = mean_cap_gain)
