@@ -582,7 +582,15 @@ for (i in 1:length(countries)) {
   y[i,] <- c(z)
 }
 
-stars(y, labels = abbreviate(countries), len = 0.8, key.loc = c(18, 2),main = "Variables Means per Country", full = TRUE, draw.segments = TRUE, key.labels=c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week"))
+stars(
+  y, 
+  labels = abbreviate(countries), 
+  len = 0.8, 
+  key.loc = c(18, 2), 
+  main = "Distribuição das variáveis por país", 
+  full = TRUE, 
+  draw.segments = TRUE, 
+  key.labels=c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week"))
 
 #============ScatterPlot Matrix==========
 
@@ -591,8 +599,6 @@ slice <- dados[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hour
 pairs(slice, pch = ".", cex = 1.5)
 
 round(cor(slice), 4)
-
-#=============================
 
 
 #============================
@@ -630,4 +636,31 @@ plot(log(blood_pcacor$sdev^2), xlab = "Component number",
      + ylab = "log(Component variance)", type="l",
      + main = "Log(eigenvalue) diagram")
 
+
+
+
+#Calculo dos Scores pra componente Principal
+x <- dados[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
+cm <- colMeans(x, na.rm = FALSE)
+slice <- dados[, c("Age", "Education.Num", "Capital.Gain", "Capital.Loss", "Hours.per.Week")]
+
+scores_x = numeric()
+scores_y = numeric()
+
+
+age <- as.numeric(cm["Age"])
+edu <- as.numeric(cm["Education.Num"])
+cap_g <- as.numeric(cm["Capital.Gain"])
+cap_l <- as.numeric(cm["Capital.Loss"])
+hours <- as.numeric(cm["Hours.per.Week"])
+
+for(i in 1:nrow(slice)) {
+    scores_x[i] <- (0.579*abs(slice[i,"Age"]-age)) + (0.393*abs(slice[i,"Capital.Gain"]-cap_g)) + (0.401*abs(slice[i,"Capital.Loss"]-cap_l)) + (0.591*abs(slice[i,"Hours.per.Week"]-hours))
+    scores_y[i] <-  (-0.103*abs(slice[i,"Education.Num"]-edu)) + (-0.704*abs(slice[i,"Capital.Gain"]-cap_g)) + (0.697*abs(slice[i,"Capital.Loss"]-cap_l))
+  }
+
+scores_x
+scores_y
+
+plot(scores_x ~ scores_y, pch = ".", cex = 1.5)
 
