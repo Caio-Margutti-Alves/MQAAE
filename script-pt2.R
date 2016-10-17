@@ -259,6 +259,22 @@ hist(subset(dados, Annual.Salary == "<=50K" )[,c("Education.Num")],
   col="red", 
   freq=F)
 
+# Histograma - Idade x Renda anual (>50K)
+hist(subset(dados, Annual.Salary == ">50K" )[,c("Age")],
+  main = "Idade x Renda anual (>50K)",
+  xlab = "Idade",
+  ylab = "Frequencia",
+  col="palevioletred1", 
+  freq=F)
+
+# Histograma - Idade x Renda anual (<=50K)
+hist(subset(dados, Annual.Salary == "<=50K" )[,c("Age")],
+  main = "Idade x Renda anual (<=50K)",
+  xlab = "Idade",
+  ylab = "Frequencia",
+  col="slateblue2", 
+  freq=F)
+
 
 #============BoxPlot==================
 
@@ -267,6 +283,12 @@ boxplot(dados$Age ~ dados$Annual.Salary, col = "purple",
         main = "Idade por Renda anual ",       
         xlab = "Renda anual",
         ylab = "Idade")
+
+#BoxPlot - Horas trabalhadas por semana x Renda anual
+boxplot(dados$Hours.per.Week ~ dados$Annual.Salary, col = "red4",
+        main = "Horas trabalhadas por semana x Renda anual",
+        xlab = "Renda anual",
+        ylab = "Horas trabalhadas por semana")
 
 #BoxPlot - Quantidade de anos de estudo x Gênero
 boxplot(dados$Education.Num ~ dados$Sex, col = "blue",
@@ -317,15 +339,16 @@ lt <- subset(dados, Annual.Salary == "<=50K")[,c("Race", "Education.Num")]
 
 # Boxplot - Raça x Educação x Renda anual
 boxplot(gt$Education.Num ~ gt$Race, col = "green",
-        main = "Quantidade de anos de estudo x Raça (com salário anual >50K)",
+        main = "Quantidade de anos de estudo x Raça (com renda anual >50K)",
         xlab = "Raça",
         ylab = "Quantidade de anos de estudo")
 
 # Boxplot - Raça x Educação x Renda anual
 boxplot(lt$Education.Num ~ lt$Race, col = "purple",
-        main = "Quantidade de anos de estudo x Raça (com salário anual <=50K)",       
+        main = "Quantidade de anos de estudo x Raça (com renda anual <=50K)",       
         xlab = "Raça",
         ylab = "Quantidade de anos de estudo")
+
 
 
 #============Barplot==================
@@ -333,30 +356,37 @@ boxplot(lt$Education.Num ~ lt$Race, col = "purple",
 grt_50 <- subset(dados, Annual.Salary == ">50K" & Native.Country != "United-States")[,c("Native.Country")]
 lss_50 <- subset(dados, Annual.Salary == "<=50K" & Native.Country != "United-States")[,c("Native.Country")]
 
-# Barplot - Salário anual (>50K) x Países
-h <- barplot(prop.table(table(grt_50)), las=2, main = "Distribuição de países com pessoas ganhando mais de $50K por ano")
+# Barplot - Renda anual (>50K) x Países
+barplot(
+  prop.table(table(grt_50)), 
+  las=2, 
+  main = "Distribuição de países com pessoas ganhando mais de $50K por ano")
 
-# Barplot - Salário anual (<=50K) x Países
-h <- barplot(prop.table(table(lss_50)), las=2, main = "Distribuição de países com pessoas ganhando menos de $50K por ano")
+# Barplot - Renda anual (<=50K) x Países
+barplot(
+  prop.table(table(lss_50)), 
+  las=2, 
+  main = "Distribuição de países com pessoas ganhando menos de $50K por ano")
+
 
 
 # Barplot - Gênero (Sexo feminino) x Renda anual
-h <- barplot(
+barplot(
   prop.table(table(female[,c("Annual.Salary")])), 
   las=2, 
-  main = "Salário anual (Sexo feminino)")
+  main = "Renda anual (Sexo feminino)")
 
 # Barplot - Gênero (Sexo masculino) x Renda anual
-h <- barplot(
+barplot(
   prop.table(table(male[,c("Annual.Salary")])), 
   las=2, 
-  main = "Salário anual (Sexo masculino)")
+  main = "Renda anual (Sexo masculino)")
 
 # Grouped Barplot - Gênero x Renda anual
 counts <- rbind(prop.table(table(female[,c("Annual.Salary")])), prop.table(table(male[,c("Annual.Salary")])))
 barplot(
   counts,
-  main="Salário anual x Gênero",
+  main="Renda anual x Gênero",
   col=c("purple","red"),
   beside=TRUE)
 
@@ -367,33 +397,68 @@ legend("topright",
        pch = c(15))
 
 
+
 # Barplot - Gênero x Renda anual (>50K)
-h <- barplot(
+barplot(
   prop.table(table(subset(dados, Annual.Salary == ">50K")[,c("Sex")])), 
   las=2, 
-  main = "Salário anual (>50K) por gênero", 
-  col="orange")
+  main = "Renda anual (>50K) por gênero", 
+  col="steelblue3")
 
 # Barplot - Gênero x Renda anual (<=50K)
-h <- barplot(
+barplot(
   prop.table(table(subset(dados, Annual.Salary == "<=50K")[,c("Sex")])), 
   las=2, 
-  main = "Salário anual (<=50K) por gênero", 
-  col="blue")
+  main = "Renda anual (<=50K) por gênero", 
+  col="orange")
 
 # Grouped Barplot - Gênero x Renda anual
 counts <- rbind(prop.table(table(subset(dados, Annual.Salary == "<=50K")[,c("Sex")])), prop.table(table(subset(dados, Annual.Salary == ">50K")[,c("Sex")])))
 barplot(
   counts,
-  main="Salário anual x Gênero",
-  col=c("orange","blue"),
+  main="Renda anual x Gênero",
+  col=c("orange","steelblue3"),
   beside=TRUE)
 
 legend("top",
        xpd = TRUE,
-       col = c("orange", "blue"), 
+       col = c("orange", "steelblue3"), 
        legend = c("<=50K", ">50K"), 
        pch = c(15))
+
+
+
+gt <- subset(dados, Annual.Salary == ">50K")[,c("Race")]
+lt <- subset(dados, Annual.Salary == "<=50K")[,c("Race")]
+
+# Barplot - Raça x Renda anual (>50K)
+barplot(
+  prop.table(table(gt)), 
+  las=2, 
+  main = "Distribuição das raças por renda anual (>50K)", 
+  col="slategray1")
+
+# Barplot - Raça x Renda anual (<=50K)
+barplot(
+  prop.table(table(lt)), 
+  las=2, 
+  main = "Distribuição das raças por renda anual (<=50K)", 
+  col="seagreen")
+
+# Grouped Barplot - Raça x Renda anual
+counts <- rbind(prop.table(table(lt)), prop.table(table(gt)))
+barplot(
+  counts,
+  main="Renda anual x Raça",
+  col=c("seagreen","slategray1"),
+  beside=TRUE)
+
+legend("top",
+       xpd = TRUE,
+       col = c("seagreen", "slategray1"), 
+       legend = c("<=50K", ">50K"), 
+       pch = c(15))
+
 
 #==============Pie Charts============
 
@@ -496,24 +561,6 @@ x <- dados$Capital.Gain
 randomdeviates<-rnorm(100000,mean(x) ,sd(x))
 randomdeviates
 hist(randomdeviates, main="Random draws from Std Normal")
-
-
-
-#============Hours-per-week x Renda anual================
-
-boxplot(dados$Hours.per.Week ~ dados$Annual.Salary, col = "green",
-        main = "Hours Per Week by Annual Salary = Male",       
-        xlab = "Race",
-        ylab = "Num Years Education")
-
-#============Etnia x Renda anual================
-
-gt <- subset(dados, Annual.Salary == ">50K")[,c("Race")]
-lt <- subset(dados, Annual.Salary == "<=50K")[,c("Race")]
-
-barplot(prop.table(table(gt)), las=2, main = "% Race of >50K people Earning", col="blue")
-
-barplot(prop.table(table(lt)), las=2, main = "% Race of <=50K people Earning", col="red")
 
 
 #============Workclass x Renda anual================
